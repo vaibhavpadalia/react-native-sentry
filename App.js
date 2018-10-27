@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Sentry, SentrySeverity } from "react-native-sentry";
 
 export default class App extends Component {
   /**
@@ -11,6 +12,16 @@ export default class App extends Component {
     throw new Error("A simple error throw from: throwError() ");
   }
 
+  /**
+   * @author Vaibhav Padalia
+   * @description This allows sentry to catch messages on certain events.
+   */
+
+  anotherAlert() {
+    Sentry.captureMessage("Something that is to be logged or displayed", {
+      level: SentrySeverity.Warning
+    });
+  }
 
   render() {
     return (
@@ -18,7 +29,13 @@ export default class App extends Component {
         <Text style={styles.welcome}>Welcome to React Native Crashlytics!</Text>
         <Text style={styles.instructions}>This is done using Sentry</Text>
         <TouchableOpacity style={{ backgroundColor: "blue", padding: 5, borderRadius: 5 }} onPress={() => this.throwError()}>
-          <Text style={styles.instructions}>{"Press Here to throw an error"}</Text>
+          <Text style={styles.instructions}>{"Press here to throw an error"}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{ backgroundColor: "green", padding: 5, borderRadius: 5, marginTop: 10 }}
+          onPress={() => this.anotherAlert()}>
+          <Text style={styles.instructions}>{"Press here to log a warning"}</Text>
         </TouchableOpacity>
       </View>
     );
